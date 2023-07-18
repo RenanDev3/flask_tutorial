@@ -27,7 +27,7 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSER INTO user (username, password) VALUES (?, ?)",
+                    "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
@@ -39,7 +39,7 @@ def register():
         # flash() stores messages that can be retrieved when rendering the template.
         flash(error)
 
-        return render_template("auth/register.html")
+    return render_template("auth/register.html")
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -50,7 +50,7 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username)
+            'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
 
         if user is None:
